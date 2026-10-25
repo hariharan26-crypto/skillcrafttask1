@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Landing Page</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      line-height: 2.9;
+      background: #f4f4f4;
+    }
+
+    /* Navigation styles */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: transparent;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      z-index: 1000;
+    }
+
+    header.scrolled {
+      background: #0d6efd;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      color: white;
+    }
+
+    .brand {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #e00909;
+      transform: scale(1.1);
+    }
+
+    /* Hero section */
+    .hero {
+      height: 100vh;
+      /*background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;*/
+      background: url('https://ew.com/thmb/W3aA0jse5cqK11vtTsE-DHWltyM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/The-Boys-social-3ac8882a6e82471d947d73818137231d.jpg') no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.8em;
+    }
+
+    /* Content sections */
+    .content {
+      padding: 60px 50px;
+      background: rgb(53, 223, 228);
+    }
+
+    .content h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .content p {
+      color: #555;
+    }
+
+    /* Services section */
+    .services {
+      padding: 60px 40px;
+      background: #f4415c;
+    }
+
+    .services h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .service-list {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .service-item {
+      flex: 1 1 250px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .service-item:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Contact section */
+    .contact {
+      padding: 60px 40px;
+      background: rgb(156, 250, 148);
+    }
+
+    .contact h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .contact form {
+      max-width: 500px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact input, .contact textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .contact button {
+      padding: 12px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .contact button:hover {
+      background: #0b5ed7;
+    }
+
+    /* Footer */
+    footer {
+      background: #0d6efd;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="navbar">
+    <nav>
+      <div class="brand">My Intern Task#1 </div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div>
+      <h1>Welcome to Daddy's Home</h1>
+      <p>A beautiful design starts here!</p>
+    </div>
+  </section>
+
+  <section class="content" id="about">
+    <h2>About Us</h2>
+    <p>We are dedicated to providing excellent services</p>
+  </section>
+
+  <section class="services" id="services">
+    <h2>Our Services</h2>
+    <div class="service-list">
+      <div class="service-item">
+        <h3>Web Design</h3>
+        <p>We create modern, responsive websites tailored to your brand.</p>
+      </div>
+      <div class="service-item">
+        <h3>Development</h3>
+        <p>Custom applications and solutions built with the latest technologies.</p>
+      </div>
+      <div class="service-item">
+        <h3>Consulting</h3>
+        <p>Expert advice to help you grow your digital presence.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2>Contact Us</h2><h3>Get in touch in today!</h3>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 My Intern. All rights reserved.
+  </footer>
+
+  <script>
+    // Change navbar style on scroll
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Stopwatch</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://img.freepik.com/premium-photo/measuring-running-speed-athlete-using-mechanical-stopwatch-hand-with-stopwatch-background-legs-runner_158518-16683.jpg') no-repeat center center/cover;
+      /*background: linear-gradient(135deg, #74ebd5, #27b41a);*/
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .stopwatch {
+      background: #d9e71b;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 350px;
+    }
+
+    .time {
+      font-size: 3em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .buttons button {
+      background: #fe593c;
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+
+    .buttons button:hover {
+      background: #574b90;
+      transform: scale(1.05);
+    }
+
+    .laps {
+      margin-top: 20px;
+      max-height: 150px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .lap {
+      background: #f1f1f1;
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 5px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="stopwatch">
+    <div class="time" id="display">00:00:00</div>
+    <div class="buttons">
+      <button onclick="startStop()">Start</button>
+      <button onclick="pause()">Pause</button>
+      <button onclick="reset()">Reset</button>
+      <button onclick="lap()">Lap</button>
+    </div>
+    <div class="laps" id="laps"></div>
+  </div>
+
+  <script>
+    let startTime = 0;
+    let updatedTime = 0;
+    let difference = 0;
+    let timerInterval;
+    let running = false;
+
+    function updateDisplay() {
+      let hours = Math.floor(difference / (1000 * 60 * 60));
+      let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById("display").innerText =
+        (hours < 10 ? "0" : "") + hours + ":" +
+        (minutes < 10 ? "0" : "") + minutes + ":" +
+        (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    function startStop() {
+      if (!running) {
+        startTime = new Date().getTime() - difference;
+        timerInterval = setInterval(function() {
+          updatedTime = new Date().getTime();
+          difference = updatedTime - startTime;
+          updateDisplay();
+        }, 1000);
+        running = true;
+      }
+    }
+
+    function pause() {
+      if (running) {
+        clearInterval(timerInterval);
+        running = false;
+      }
+    }
+
+    function reset() {
+      clearInterval(timerInterval);
+      running = false;
+      difference = 0;
+      document.getElementById("display").innerText = "00:00:00";
+      document.getElementById("laps").innerHTML = "";
+    }
+
+    function lap() {
+      if (running) {
+        let lapTime = document.getElementById("display").innerText;
+        let lapDiv = document.createElement("div");
+        lapDiv.className = "lap";
+        lapDiv.innerText = "Lap: " + lapTime;
+        document.getElementById("laps").appendChild(lapDiv);
+      }
+    }
+  </script>
+</body>
+</html>

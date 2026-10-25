@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Tic Tac Toe -HARI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      /*background: url('https://images.pexels.com/photos/28454507/pexels-photo-28454507/free-photo-of-tic-tac-toe-game-on-black-surface.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') no-repeat center center/cover;*/
+      background: url('https://media.istockphoto.com/id/1292919739/vector/tic-tac-toe-school-game-colorful-seamless-pattern-for-fabric-and-print-on-the-paper.jpg?s=612x612&w=0&k=20&c=Q4gMspKHffPmhKuofb_Rb_WCD8uAgbsbXSKuWEcziM8=') no-repeat center center/cover;
+      /*background: #f0f2f5;*/
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .game {
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #c14309;
+    }
+    h4 {
+      margin-bottom: 20px;
+      color: #c30755;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      background: #fcfcfc;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #0dca52;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .cell:hover {
+      background: #e0e0e0;
+    }
+    .cell.x { color: #0eef25; }
+    .cell.o { color: #ee1b0c; }
+    .status {
+      margin: 19px 2;
+      font-size: 1.9rem;
+      color: #08ac2c;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover { background: #fd2537; }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>Tic Tac Toe</h1>
+    <div class="status" id="status">Turn: X</div>
+    <div class="board" id="board"></div>
+    <button onclick="resetGame()">Reset</button>
+    <button onclick="toggleMode()">Switch Mode</button>
+    <div id="mode"><h4>Mode: Player vs Computer</h4></div>
+  </div>
+
+  <script>
+    const boardEl = document.getElementById('board');
+    const statusEl = document.getElementById('status');
+    const modeEl = document.getElementById('mode');
+    let board = Array(9).fill(null);
+    let xIsNext = true;
+    let gameOver = false;
+    let mode = 'pvc'; // pvc or pvp
+
+    function initBoard() {
+      boardEl.innerHTML = '';
+      board.forEach((_, i) => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.addEventListener('click', () => handleClick(i));
+        boardEl.appendChild(cell);
+      });
+    }
+
+    function handleClick(i) {
+      if (gameOver || board[i]) return;
+      const current = xIsNext ? 'X' : 'O';
+      board[i] = current;
+      updateBoard();
+      if (checkWinner()) return;
+      xIsNext = !xIsNext;
+      statusEl.textContent = `Turn: ${xIsNext ? 'X' : 'O'}`;
+
+      if (mode === 'pvc' && !gameOver && !xIsNext) {
+        setTimeout(computerMove, 400);
+      }
+    }
+
+    function computerMove() {
+      const empty = board.map((v, i) => v ? null : i).filter(v => v !== null);
+      if (empty.length === 0) return;
+      const move = empty[Math.floor(Math.random() * empty.length)];
+      board[move] = 'O';
+      updateBoard();
+      if (checkWinner()) return;
+      xIsNext = true;
+      statusEl.textContent = `Turn: X`;
+    }
+
+    function updateBoard() {
+      board.forEach((val, i) => {
+        const cell = boardEl.children[i];
+        cell.textContent = val || '';
+        cell.classList.toggle('x', val === 'X');
+        cell.classList.toggle('o', val === 'O');
+      });
+    }
+
+    function checkWinner() {
+      const lines = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      for (const [a,b,c] of lines) {
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          statusEl.textContent = `Winner: ${board[a]}`;
+          gameOver = true;
+          return true;
+        }
+      }
+      if (board.every(Boolean)) {
+        statusEl.textContent = 'Draw!';
+        gameOver = true;
+        return true;
+      }
+      return false;
+    }
+
+    function resetGame() {
+      board = Array(9).fill(null);
+      xIsNext = true;
+      gameOver = false;
+      statusEl.textContent = 'Turn: X';
+      initBoard();
+    }
+
+    function toggleMode() {
+      mode = mode === 'pvc' ? 'pvp' : 'pvc';
+      modeEl.textContent = `Mode: ${mode === 'pvc' ? 'Player vs Computer' : 'Player vs Player'}`;
+      resetGame();
+    }
+
+    initBoard();
+  </script>
+</body>
+</html>

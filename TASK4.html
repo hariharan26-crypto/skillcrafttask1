@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do list</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://media.istockphoto.com/id/1173780504/vector/to-do-list.jpg?s=612x612&w=0&k=20&c=v9CFBAPGBYqEZnu8Hn1ZNIuIHlk-RBj-OtMpB8WfbP4=') no-repeat center center/cover;
+      /*background: #f4f6f9;*/
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 60px;
+      height: 100vh;
+      margin: 0;
+    }
+    .todo-container {
+      background: #e3e326;
+      padding: 30px;
+      border-radius: 15px;
+      width: 500px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .task-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .task-input input, .task-input select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      flex: 1;
+    }
+    .task-input button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .task-input button:hover {
+      background: #45a049;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #f9f9f9;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li.completed {
+      text-decoration: line-through;
+      color: gray;
+      background: #e0e0e0;
+    }
+    .actions button {
+      margin-left: 5px;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .edit { background: #2196F3; color: white; }
+    .delete { background: #f44336; color: white; }
+    .complete { background: #4CAF50; color: white; }
+    .date {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h1> My To-Do List</h1>
+    <div class="task-input">
+      <input type="text" id="task" placeholder="Enter task...">
+      <input type="datetime-local" id="taskDate">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      const taskText = document.getElementById("task").value;
+      const taskDate = document.getElementById("taskDate").value;
+      if (taskText === "") return alert("Please enter a task!");
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div>
+          <span class="task-text">${taskText}</span>
+          ${taskDate ? `<div class="date">⏰ ${taskDate}</div>` : ""}
+        </div>
+        <div class="actions">
+          <button class="complete" onclick="toggleComplete(this)">✔</button>
+          <button class="edit" onclick="editTask(this)">✏</button>
+          <button class="delete" onclick="deleteTask(this)">🗑</button>
+        </div>
+      `;
+      document.getElementById("taskList").appendChild(li);
+      document.getElementById("task").value = "";
+      document.getElementById("taskDate").value = "";
+    }
+
+    function toggleComplete(button) {
+      const li = button.closest("li");
+      li.classList.toggle("completed");
+    }
+
+    function editTask(button) {
+      const li = button.closest("li");
+      const taskText = li.querySelector(".task-text").innerText;
+      const newTask = prompt("Edit task:", taskText);
+      if (newTask !== null && newTask.trim() !== "") {
+        li.querySelector(".task-text").innerText = newTask;
+      }
+    }
+
+    function deleteTask(button) {
+      const li = button.closest("li");
+      li.remove();
+    }
+  </script>
+</body>
+</html>
